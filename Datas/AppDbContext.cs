@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Project2.Models;
 namespace Project2.Datas
 {
@@ -15,6 +15,7 @@ namespace Project2.Datas
         public DbSet<TripMembers> tripMembers { get; set; }
         public DbSet<Trips> trips { get; set; }
         public DbSet<Users> users { get; set; }
+        public DbSet<Notifications> notifications { get; set; }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project2.Datas;
@@ -60,6 +60,17 @@ namespace Project2.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetTripsByUser(int userId)
+        {
+            var trips = await _context.trips
+                .Where(t => t.UserId == userId)
+                .OrderByDescending(t => t.StartDate)
+                .ToListAsync();
+
+            return Ok(trips);
         }
     }
 }

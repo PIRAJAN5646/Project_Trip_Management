@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project2.Datas;
 
 namespace Project2.Controllers
@@ -32,6 +33,31 @@ namespace Project2.Controllers
                 return NotFound();
 
             return Ok(media);
+        }
+
+        [HttpGet("trip/{tripId}")]
+        public async Task<IActionResult> GetMediaByTrip(int tripId)
+        {
+            var mediaList = await _context.media
+                .Where(m => m.TripId == tripId)
+                .OrderByDescending(m => m.UploadedAt)
+                .ToListAsync();
+
+            return Ok(mediaList);
+        }
+
+        [HttpDelete("{mediaId}")]
+        public async Task<IActionResult> DeleteMedia(int mediaId)
+        {
+            var media = await _context.media.FindAsync(mediaId);
+
+            if (media == null)
+                return NotFound();
+
+            _context.media.Remove(media);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
